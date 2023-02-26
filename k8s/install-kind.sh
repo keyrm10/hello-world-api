@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 # Check if kind is already installed
 if command -v kind &> /dev/null; then
   echo "kind is already installed"
