@@ -32,8 +32,11 @@ else
   echo "kind installed successfully"
 fi
 
+# Get the absolute path of the script directory
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+
 # Create a local Kubernetes cluster
-kind create cluster --config kind-config.yml
+kind create cluster --config "$SCRIPT_DIR/kind-config.yml"
 
 # Get kubeconfig
 kubectl cluster-info --context kind-kind
