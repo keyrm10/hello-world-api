@@ -9,10 +9,16 @@ COPY main.go go.mod ./
 
 RUN go build -o /hello-world-api
 
+RUN adduser -u 10001 -D nonroot
+
 ## Deploy
 FROM scratch
 
 COPY --from=build /hello-world-api /hello-world-api
+
+COPY --from=0 /etc/passwd /etc/passwd
+
+USER nonroot
 
 EXPOSE 8080
 
