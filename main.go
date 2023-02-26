@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strings"
 )
 
 type Greeting struct {
@@ -26,7 +27,8 @@ func getGreeting(customerID string) string {
 }
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	customerID := r.URL.Query().Get("id")
+	urlParts := strings.Split(r.URL.Path, "/")
+	customerID := urlParts[len(urlParts)-1]	
 	if customerID == "" {
 		http.Error(w, "Missing id parameter", http.StatusBadRequest)
 		return
@@ -46,7 +48,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/hello", helloHandler)
+	http.HandleFunc("/hello/", helloHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
