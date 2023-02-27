@@ -31,7 +31,7 @@ func getGreeting(customerID string) string {
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	customerID := strings.TrimPrefix(r.URL.Path, PathPrefix)
 	if customerID == "" {
-		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		http.Error(w, "Error: The 'id' parameter is missing from the request URL", http.StatusBadRequest)
 		return
 	}
 
@@ -40,12 +40,14 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 	greeting := Greeting{customerID, salutation}
 	response, err := json.Marshal(greeting)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Error: Unable to serialize greeting to JSON", http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(response)
+	if _, err := w.Write(response); err != nil {
+		log.Printf("Error: Unable to write response: %v", err)
+	}
 }
 
 func main() {
