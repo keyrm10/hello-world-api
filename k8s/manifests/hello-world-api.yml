@@ -39,7 +39,7 @@ kind: Ingress
 metadata:
   name: hello
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /hello/$1
+    nginx.ingress.kubernetes.io/rewrite-target: /api/$2/hello/$3
 spec:
   ingressClassName: nginx
   rules:
@@ -50,5 +50,5 @@ spec:
             name: hello
             port:
               number: 80
-        path: /hello/([^/]+)
+        path: /api(/v(\d+))?/hello/([^/]+)
         pathType: Prefix
