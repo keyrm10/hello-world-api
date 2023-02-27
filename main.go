@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+const PathPrefix = "/api/v1/hello/"
+
 type Greeting struct {
 	ID         string `json:"id"`
 	Salutation string `json:"salutation"`
@@ -27,8 +29,7 @@ func getGreeting(customerID string) string {
 }
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	urlParts := strings.Split(r.URL.Path, "/")
-	customerID := urlParts[len(urlParts)-1]	
+	customerID := strings.TrimPrefix(r.URL.Path, PathPrefix)
 	if customerID == "" {
 		http.Error(w, "Missing id parameter", http.StatusBadRequest)
 		return
@@ -48,7 +49,6 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/hello/", helloHandler)
-
+	http.HandleFunc(PathPrefix, helloHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
