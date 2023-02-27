@@ -1,14 +1,16 @@
 # Hello World API
 
-This repository contains code for a simple "Hello World" API that returns a greeting based on a customer ID. It includes a Dockerfile for building the API into a Docker image and Kubernetes manifest files for running the API in a local Kubernetes cluster using Kind.
+This repository contains code for a simple "Hello World" REST API that returns a greeting based on a customer ID. It includes a Dockerfile for building the API into a Docker image and Kubernetes manifest files for running the API in a local Kubernetes cluster using Kind.
 
 It also includes a GitHub Actions workflow that builds the Docker image and pushes it to Docker Hub when changes are pushed to the main branch.
 
 ## Overview
 
-The hello-world-api is a simple HTTP server written in Go that returns a greeting in JSON format based on a provided customer ID. The available greetings are stored in a map with the keys "A", "B", and "C". If the provided customer ID does not match any of these keys, the greeting "Hello" is returned.
+The hello-world-api is a simple HTTP server written in Go that returns a greeting in JSON format based on a provided customer ID. The available greetings are stored in a map with the keys "a", "b", and "c". If the provided customer ID does not match any of these keys, the greeting "Hello" is returned.
 
-To use the API, you can send an HTTP GET request to the endpoint `/hello/<id>`, where `<id>` is the desired customer ID. For example, to get a greeting for customer "A", you would send a request to `/hello/A`. The API will return a JSON object with the keys "id" and "salutation", where "id" is the provided customer ID and "salutation" is the greeting associated with that ID.
+To use the API, you can send an HTTP GET request to the endpoint `/api/v1/hello/<id>`, where `<id>` is the desired customer ID. For example, to get a greeting for customer "a", you would send a request to `/api/v1/hello/a`. The `<id>` parameter is case-insensitive, so you can use upper or lower case strings.
+
+The API will return a JSON object with the keys "id" and "salutation", where "id" is the provided customer ID and "salutation" is the greeting associated with that ID.
 
 ##### Request Parameters
 
