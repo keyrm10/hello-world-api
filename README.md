@@ -64,7 +64,7 @@ To build and run the API locally, you can use the following commands:
 docker build -t hello-world-api .
 
 # Run the Docker image
-docker run -dp 8080:8080 hello-world-api
+docker run -dp 80:8080 hello-world-api
 ```
 
 ### Running the API in a local Kubernetes cluster
@@ -79,14 +79,14 @@ To run the API in a local Kubernetes cluster using Kind, you can use the followi
 kubectl apply -f ./k8s/manifests/
 ```
 
-> If you already have a Kubernetes cluster, you only need to deploy the YAML manifests by running `kubectl apply -f ./k8s/manifests/`
+> If you already have a Kubernetes cluster, you only need to apply the YAML manifests by running `kubectl apply -f ./k8s/manifests/`
 
 ### Testing the API
 
-You can then access the API at `http://localhost:8080/hello/<id>`, where `<id>` is a string representing the customer ID. Here is an example of how to use the API with the command-line tool cURL:
+You can then access the API at `http://localhost/hello/<id>`, where `<id>` is a string representing the customer ID. Keep in mind that after applying the manifests it will take some time for the Ingress to fully deploy and be functional. Here is an example of how to use the API with the command-line tool cURL:
 
 ```bash
-curl http://localhost:8080/hello/A
+curl http://localhost/hello/A
 ```
 
 This will return a JSON object like this:
@@ -95,12 +95,14 @@ This will return a JSON object like this:
 {"id":"A","salutation":"Hi"}
 ```
 
+> Note that, while the web server and container are listening on port 8080, when deployed in Kubernetes, the Service that exposes the Deployment will direct the traffic on port 80 to port 8080 of the container.
+
 ## Clean up
 
 If you have built the Docker image locally and run a container, you can stop and delete the container using the following command:
 
 ```bash
-docker rm -f CONTAINER_ID
+docker rm -f CONTAINER
 ```
 
 You can also delete the Docker image by running:
