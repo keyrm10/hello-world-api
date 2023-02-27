@@ -13,9 +13,9 @@ type Greeting struct {
 }
 
 var Greetings = map[string]string{
-	"A": "Hi",
-	"B": "Dear Sir or Madam",
-	"C": "Moin",
+	"a": "Hi",
+	"b": "Dear Sir or Madam",
+	"c": "Moin",
 }
 
 func getGreeting(customerID string) string {
@@ -34,7 +34,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	salutation := getGreeting(customerID)
+	salutation := getGreeting(strings.ToLower(customerID))
 
 	greeting := Greeting{customerID, salutation}
 	response, err := json.Marshal(greeting)
